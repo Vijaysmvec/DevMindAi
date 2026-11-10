@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: devmind-singularity-pgvector
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: devmind
+      POSTGRES_PASSWORD: devmind_singularity_password
+      POSTGRES_DB: devmind_singularity
+    ports:
+      - "5432:5432"
+    volumes:
+      - devmind_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devmind -d devmind_singularity"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  devmind_pgdata:
